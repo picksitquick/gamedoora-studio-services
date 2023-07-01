@@ -29,7 +29,7 @@ public class PropertiesConfig {
   /**
    * @param primaryDbUrl the primaryDbUrl to set
    */
-  @Value("${userservice.db.primary.url}")
+  @Value("${db.primary.url}")
   public void setPrimaryDbUrl(String primaryDbUrl) {
         this.primaryDbUrl = primaryDbUrl;
     }
@@ -44,7 +44,7 @@ public class PropertiesConfig {
     /**
      * @param primaryDbDriver the primaryDbDriver to set
      */
-    @Value("${userservice.db.primary.driver}")
+    @Value("${db.primary.driver}")
     public void setPrimaryDbDriver(String primaryDbDriver) {
         this.primaryDbDriver = primaryDbDriver;
     }
@@ -59,7 +59,7 @@ public class PropertiesConfig {
     /**
      * @param primaryDbUser the primaryDbUser to set
      */
-    @Value("${userservice.db.primary.user}")
+    @Value("${db.primary.user}")
     public void setPrimaryDbUser(String primaryDbUser) {
         this.primaryDbUser = primaryDbUser;
     }
@@ -74,7 +74,7 @@ public class PropertiesConfig {
     /**
      * @param primaryDbPassword the primaryDbPassword to set
      */
-    @Value("${userservice.db.primary.password}")
+    @Value("${db.primary.password}")
     public void setPrimaryDbPassword(String primaryDbPassword) {
         this.primaryDbPassword = primaryDbPassword;
     }
@@ -89,7 +89,7 @@ public class PropertiesConfig {
   /**
    * @param hibernateHbm2ddl the hibernateHbm2ddl to set
    */
-  @Value("${userservice.db.primary.hbm2ddl.auto}")
+  @Value("${db.primary.hbm2ddl.auto}")
   public void setHibernateHbm2ddl(String hibernateHbm2ddl) {
     this.hibernateHbm2ddl = hibernateHbm2ddl;
   }
@@ -104,11 +104,8 @@ public class PropertiesConfig {
   /**
    * @param hibernateDialect the hibernateDialect to set
    */
-  @Value("${userservice.db.primary.hibernate.dialect}")
+  @Value("${db.primary.hibernate.dialect}")
   public void setHibernateDialect(String hibernateDialect) {
     this.hibernateDialect = hibernateDialect;
   }
-    
-    
-    
 }

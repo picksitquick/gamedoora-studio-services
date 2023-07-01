@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = "com.gamedoora.backend.studioservices.repository",
+@EnableJpaRepositories(basePackages = "com.gamedoora.backend.userservices.repository", 
     entityManagerFactoryRef = "primaryEntityManagerFactory",
     transactionManagerRef = "primaryTransactionManager")
 public class RelationalDbConfig {

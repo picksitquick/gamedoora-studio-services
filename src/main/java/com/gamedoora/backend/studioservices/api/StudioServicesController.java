@@ -3,6 +3,7 @@ package com.gamedoora.backend.studioservices.api;
 import com.gamedoora.backend.studioservices.assembler.StudioServicesAssembler;
 import com.gamedoora.backend.studioservices.exceptions.NotFoundException;
 import com.gamedoora.model.dao.Studios;
+import com.gamedoora.model.dto.StudiosDTO;
 import com.gamedoora.model.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,17 +41,17 @@ public class StudioServicesController extends BaseController{
             value = "/",
             consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Studios> createStudio(@RequestBody Studios studios) {
-        return createResponse(studioServicesAssembler.createStudio(studios), HttpStatus.CREATED);
+    public ResponseEntity<StudiosDTO> createStudio(@RequestBody StudiosDTO studiosDto) {
+        return createResponse(studioServicesAssembler.createStudio(studiosDto), HttpStatus.CREATED);
     }
 
     @PutMapping(
             value = "/{id}",
             consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Studios> updateStudios(
-            @PathVariable("id") long id, @RequestBody Studios studios) {
-        Studios studioRes = studioServicesAssembler.updateStudio(id, studios);
+    public ResponseEntity<StudiosDTO> updateStudios(
+            @PathVariable("id") long id, @RequestBody StudiosDTO studiosDto) {
+        StudiosDTO studioRes = studioServicesAssembler.updateStudio(id, studiosDto);
         if (null == studioRes) {
             throw new NotFoundException(MessageFormat.format("User by id {0} not found", id));
         }
@@ -72,8 +73,28 @@ public class StudioServicesController extends BaseController{
     @GetMapping(
             value = "/",
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<List<Studios>> getAllStudios(@RequestParam(required = false) String name) {
+    public ResponseEntity<List<StudiosDTO>> getAllStudios(@RequestParam(required = false) String name) {
         return createResponse(studioServicesAssembler.getAllStudios(name) , HttpStatus.OK);
     }
 
+    @GetMapping(
+            value = "/",
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<List<StudiosDTO>> getAllStudiosByVisibility(@RequestParam(required = false) boolean visible) {
+        return createResponse(studioServicesAssembler.getAllStudiosByVisibility(visible), HttpStatus.OK);
+    }
+
+    @GetMapping(
+            value = "/",
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<List<StudiosDTO>> getAllStudiosByCommunity(@RequestParam(required = false) int community) {
+        return createResponse(studioServicesAssembler.getAllStudiosByCommunity(community), HttpStatus.OK);
+    }
+
+    @GetMapping(
+            value = "/",
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<List<StudiosDTO>> getAllStudiosByRegistration(@RequestParam(required = false) boolean registration) {
+        return createResponse(studioServicesAssembler.getAllStudiosByRegistration(registration), HttpStatus.OK);
+    }
 }

@@ -2,17 +2,32 @@ package com.gamedoora.backend.studioservices.assembler;
 
 import com.gamedoora.backend.studioservices.repository.StudioRepository;
 import com.gamedoora.model.dao.Studios;
+import com.gamedoora.model.dto.StudiosDTO;
+import com.gamedoora.model.mapper.StudiosMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+//using @Component makes it more flexible for our changes, it includes @Service, but withe additional resources.
+//use DTOs
 @Service
 public class StudioServicesAssembler {
 
-
     private StudioRepository studioRepository;
+
+    private StudiosMapper studioMapper;
+
+    @Autowired
+    public void setStudioMapper(StudiosMapper studioMapper){
+        this.studioMapper = studioMapper;
+    }
+
+    public StudiosMapper getStudioMapper(){
+        return studioMapper;
+    }
 
     @Autowired
     public void setStudioRepository(StudioRepository studioRepository){
@@ -23,12 +38,13 @@ public class StudioServicesAssembler {
         return studioRepository;
     }
 
-    public Studios createStudio(Studios studios){
+    public StudiosDTO createStudio(StudiosDTO studiosDto){
+        Studios studios = studioMapper.studiosDtoToStudios(studiosDto);
         studioRepository.save(studios);
-        return studios;
+        return studiosDto;
     }
 
-    public Studios updateStudio(long id , Studios studios){
+    public StudiosDTO updateStudio(long id , StudiosDTO studiosDto){
 
         Optional<Studios> studiosRes = studioRepository.findById(id);
         if(studiosRes.isEmpty()){
@@ -38,7 +54,7 @@ public class StudioServicesAssembler {
         studioUpdate.setName(studiosRes.get().getName());
         studioRepository.save(studioUpdate);
 
-        return studios;
+        return studiosDto;
     }
 
     public void deleteStudio(long id){
@@ -49,9 +65,43 @@ public class StudioServicesAssembler {
         studioRepository.deleteAll();
     }
 
-    public List<Studios> getAllStudios(String name){
-        List<Studios> studios = name == null ? studioRepository.findAll() : studioRepository.findByName(name);
-        return studios.isEmpty() ? null : studios;
+    public List<StudiosDTO> getAllStudios(String name){
+        List<StudiosDTO> studiosDto = new ArrayList<>();
+        if (name == null) {
+            studioRepository.findAll().forEach(studio -> studiosDto.add(getStudioMapper().studiosToStudiosDto(studio)));
+        } else {
+            studioRepository.findByName(name).forEach(studio -> studiosDto.add(getStudioMapper().studiosToStudiosDto(studio)));
+        }
+        return studiosDto.isEmpty() ? null : studiosDto;
     }
 
+    public List<StudiosDTO> getAllStudiosByVisibility(boolean visible) {
+        List<StudiosDTO> studiosDto = new ArrayList<>();
+        if (visible) {
+            studioRepository.findByVisibility(visible).forEach(studio -> studiosDto.add(getStudioMapper().studiosToStudiosDto(studio)));
+        } else {
+            studioRepository.findAll().forEach(studio -> studiosDto.add(getStudioMapper().studiosToStudiosDto(studio)));
+        }
+        return studiosDto.isEmpty() ? null : studiosDto;
+    }
+
+    public List<StudiosDTO> getAllStudiosByCommunity(int community) {
+        List<StudiosDTO> studiosDto = new ArrayList<>();
+        if (community == 1) {
+            studioRepository.findByCommunity(community).forEach(studio -> studiosDto.add(getStudioMapper().studiosToStudiosDto(studio)));
+        } else {
+            studioRepository.findAll().forEach(studio -> studiosDto.add(getStudioMapper().studiosToStudiosDto(studio)));
+        }
+        return studiosDto.isEmpty() ? null : studiosDto;
+    }
+
+    public List<StudiosDTO> getAllStudiosByRegistration(boolean registration) {
+        List<StudiosDTO> studiosDto = new ArrayList<>();
+        if (registration) {
+            studioRepository.findByRegistration(registration).forEach(studio -> studiosDto.add(getStudioMapper().studiosToStudiosDto(studio)));
+        } else {
+            studioRepository.findAll().forEach(studio -> studiosDto.add(getStudioMapper().studiosToStudiosDto(studio)));
+        }
+        return studiosDto.isEmpty() ? null : studiosDto;
+    }
 }

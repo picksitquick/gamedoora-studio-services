@@ -2,6 +2,7 @@ package com.gamedoora.backend.studioservices.assembler;
 
 import com.gamedoora.backend.studioservices.repository.StudioRepository;
 import com.gamedoora.model.dao.Studios;
+import com.gamedoora.model.dao.Users;
 import com.gamedoora.model.dto.StudiosDTO;
 import com.gamedoora.model.mapper.StudiosMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,10 +99,20 @@ public class StudioServicesAssembler {
     public List<StudiosDTO> getAllStudiosByRegistration(boolean registration) {
         List<StudiosDTO> studiosDto = new ArrayList<>();
         if (registration) {
-            studioRepository.findByRegistration(registration).forEach(studio -> studiosDto.add(getStudioMapper().studiosToStudiosDto(studio)));
+            studioRepository.findByRegistration(true).forEach(studio -> studiosDto.add(getStudioMapper().studiosToStudiosDto(studio)));
         } else {
             studioRepository.findAll().forEach(studio -> studiosDto.add(getStudioMapper().studiosToStudiosDto(studio)));
         }
         return studiosDto.isEmpty() ? null : studiosDto;
+    }
+
+    public List<StudiosDTO> getAllByUsers(Users users){
+        List<StudiosDTO> studiosDto = new ArrayList<>();
+        if (users != null) {
+            studioRepository.findByUser(users).forEach(studio -> studiosDto.add(getStudioMapper().studiosToStudiosDto(studio)));
+        } else {
+            studioRepository.findAll().forEach(studios -> studiosDto.add(getStudioMapper().studiosToStudiosDto(studios)));
+        }
+        return (studiosDto.isEmpty() ? null : studiosDto);
     }
 }

@@ -106,7 +106,7 @@ public class StudioServicesAssembler {
         return studiosDto.isEmpty() ? null : studiosDto;
     }
 
-    public List<StudiosDTO> getAllByUsers(Users users){
+    public List<StudiosDTO> getAllStudiosByUsers(Users users){
         List<StudiosDTO> studiosDto = new ArrayList<>();
         if (users != null) {
             studioRepository.findByUser(users).forEach(studio -> studiosDto.add(getStudioMapper().studiosToStudiosDto(studio)));

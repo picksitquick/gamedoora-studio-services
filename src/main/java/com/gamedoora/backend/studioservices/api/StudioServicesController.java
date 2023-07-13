@@ -3,6 +3,7 @@ package com.gamedoora.backend.studioservices.api;
 import com.gamedoora.backend.studioservices.assembler.StudioServicesAssembler;
 import com.gamedoora.backend.studioservices.exceptions.NotFoundException;
 import com.gamedoora.model.dao.Studios;
+import com.gamedoora.model.dao.Users;
 import com.gamedoora.model.dto.StudiosDTO;
 import com.gamedoora.model.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,5 +97,12 @@ public class StudioServicesController extends BaseController{
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<StudiosDTO>> getAllStudiosByRegistration(@RequestParam(required = false) boolean registration) {
         return createResponse(studioServicesAssembler.getAllStudiosByRegistration(registration), HttpStatus.OK);
+    }
+
+    @GetMapping(
+            value = "/",
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<List<StudiosDTO>> getAllStudiosByUsers(@RequestParam(required = false) Users users) {
+        return createResponse(studioServicesAssembler.getAllStudiosByUsers(users), HttpStatus.OK);
     }
 }

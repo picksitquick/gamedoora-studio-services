@@ -100,9 +100,16 @@ public class StudioServicesController extends BaseController{
     }
 
     @GetMapping(
-            value = "/",
+            value = "/studio/users/{id}",
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<List<StudiosDTO>> getAllStudiosByUsers(@RequestParam(required = false) Users users) {
-        return createResponse(studioServicesAssembler.getAllStudiosByUsers(users), HttpStatus.OK);
+    public ResponseEntity<List<StudiosDTO>> getAllStudiosByUsers(@RequestParam(required = false) long user_id) {
+        return createResponse(studioServicesAssembler.getAllStudiosByUsers(user_id), HttpStatus.OK);
+    }
+
+    @GetMapping(
+            value = "/studio/users/{name}",
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<List<StudiosDTO>> getAllStudiosByUsersFirstName(@RequestParam(required = false) String user_name) {
+        return createResponse(studioServicesAssembler.getAllStudiosByUsersFirstName(user_name), HttpStatus.OK);
     }
 }

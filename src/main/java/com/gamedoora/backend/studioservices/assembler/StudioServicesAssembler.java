@@ -45,6 +45,17 @@ public class StudioServicesAssembler {
         return studiosDto;
     }
 
+    public void addUserToStudio(StudiosDTO studiosDTO , long user_id){
+        //Add User to a Studio
+        //aggregator will handle this just check for no exception in searching
+    }
+
+    public void approveUser(StudiosDTO studiosDTO , long user_id, boolean adminApproval){
+        // this adminApproval is coming from UI
+        //if admin says yes then true
+        //return false;
+    }
+
     public StudiosDTO updateStudio(long id , StudiosDTO studiosDto){
 
         Optional<Studios> studiosRes = studioRepository.findById(id);
@@ -106,11 +117,19 @@ public class StudioServicesAssembler {
         return studiosDto.isEmpty() ? null : studiosDto;
     }
 
-    public List<StudiosDTO> getAllStudiosByUsers(Users users){
+    public List<StudiosDTO> getAllStudiosByUsers(long id){
         List<StudiosDTO> studiosDto = new ArrayList<>();
-        if (users != null) {
-            studioRepository.findByUser(users).forEach(studio -> studiosDto.add(getStudioMapper().studiosToStudiosDto(studio)));
-        } else {
+        studioRepository.findByUsersSet_Id(id).forEach(studio -> studiosDto.add(getStudioMapper().studiosToStudiosDto(studio)));
+        if(studiosDto.isEmpty()) {
+            studioRepository.findAll().forEach(studios -> studiosDto.add(getStudioMapper().studiosToStudiosDto(studios)));
+        }
+        return (studiosDto.isEmpty() ? null : studiosDto);
+    }
+
+    public List<StudiosDTO> getAllStudiosByUsersFirstName(String name){
+        List<StudiosDTO> studiosDto = new ArrayList<>();
+        studioRepository.findByUsersSet_FirstName(name).forEach(studio -> studiosDto.add(getStudioMapper().studiosToStudiosDto(studio)));
+        if(studiosDto.isEmpty()) {
             studioRepository.findAll().forEach(studios -> studiosDto.add(getStudioMapper().studiosToStudiosDto(studios)));
         }
         return (studiosDto.isEmpty() ? null : studiosDto);

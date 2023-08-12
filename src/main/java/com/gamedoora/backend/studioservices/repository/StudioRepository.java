@@ -18,6 +18,11 @@ public interface StudioRepository extends JpaRepository<Studios , Long> {
 
     List<Studios> findByRegistration(boolean registration);
 
-    List<Studios> findByUser(Users users);
+    List<Studios> findByUsersSet_Id(long id);
 
+    List<Studios> findByUsersSet_FirstName(String firstName);
+
+    //List User is registered by a particular Studio or not, param-Studio ID
+
+    //Hang-On till we reach aggregator part
 }

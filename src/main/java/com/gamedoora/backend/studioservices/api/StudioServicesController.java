@@ -112,4 +112,11 @@ public class StudioServicesController extends BaseController{
     public ResponseEntity<List<StudiosDTO>> getAllStudiosByUsersFirstName(@RequestParam(required = false) String user_name) {
         return createResponse(studioServicesAssembler.getAllStudiosByUsersFirstName(user_name), HttpStatus.OK);
     }
+
+    @GetMapping(
+            value = "/users/{userEmail}",
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<List<StudiosDTO>> getStudioByUserWithEmail(@RequestParam String userEmail){
+        return createResponse(studioServicesAssembler.getUserByStudioWithEmail(userEmail), HttpStatus.OK);
+    }
 }

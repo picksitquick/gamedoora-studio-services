@@ -22,6 +22,8 @@ public interface StudioRepository extends JpaRepository<Studios , Long> {
 
     List<Studios> findByUsersSet_FirstName(String firstName);
 
+    List<Studios> findByUsersSetStudio_Email(String email);
+
     //List User is registered by a particular Studio or not, param-Studio ID
 
     //Hang-On till we reach aggregator part

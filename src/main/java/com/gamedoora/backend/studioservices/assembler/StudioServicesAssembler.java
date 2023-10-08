@@ -134,4 +134,12 @@ public class StudioServicesAssembler {
         }
         return (studiosDto.isEmpty() ? null : studiosDto);
     }
+
+    public List<StudiosDTO> getUserByStudioWithEmail(String email){
+        List<StudiosDTO> studiosDTOS = new ArrayList<>();
+        studioRepository.findByUsersSetStudio_Email(email).forEach(studios ->
+                studiosDTOS.add(getStudioMapper().studiosToStudiosDto(studios)));
+
+        return studiosDTOS;
+    }
 }
